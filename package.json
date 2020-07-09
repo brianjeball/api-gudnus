@@ -1,0 +1,60 @@
+{
+  "name": "api-gudnus",
+  "version": "1.0.0",
+  "description": "api for Gudnus Web app",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brianjeball/api-gudnus.git"
+  },
+  "keywords": [
+    "gudnus"
+  ],
+  "author": "Brian J. Ball",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brianjeball/api-gudnus/issues"
+  },
+  "homepage": "https://github.com/brianjeball/api-gudnus#readme",
+  "scripts": {
+    "start": "npm run nodemon",
+    "dev": "cross-env NODE_ENV=development node app.js",
+    "nodemon": "nodemon --exec npm run dev",
+    "prepush": "npm test",
+    "pretest": "npm run lint",
+    "production": "cross-env NODE_ENV=production node app.js"
+  },
+  "jest": {
+    "globals": {
+      "__DEV__": true
+    },
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "dependencies": {
+    "basic-auth": "^2.0.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "es6-promise": "^4.2.8",
+    "express": "^4.17.1",
+    "helmet": "^3.22.0",
+    "http": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.22.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "eslint": "^7.1.0",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "nodemon": "^2.0.4",
+    "sequelize-cli": "^6.0.0",
+    "shx": "^0.3.2",
+    "supertest": "^4.0.2"
+  }
+}
