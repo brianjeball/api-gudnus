@@ -8,7 +8,6 @@ const http = require('http');
 const cors = require('cors');
 
 const morgan = require('morgan');
-const mysql = require('mysql2');
 
 /**
  * server configuration
@@ -29,14 +28,6 @@ const environment = process.env.NODE_ENV;
 const app = express();
 const server = http.Server(app);
 const DB = dbService(environment, config.migrate).start();
-
-
-const mysqlDB = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'password',
-  database: 'test_mysql'
-})
 
 app.use(morgan('combined'));
 
