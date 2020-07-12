@@ -63,8 +63,16 @@ const authenticateUser = (req, res, next) => {
     }
 }
 
+const authorizeUser = (req, res, next) => {
+    if (req.body.user.authorized) {
+        res.cookie('rememberme', '1', { maxAge: 900000, httpOnly: true })
+    }
+
+    res.end();
+}
 
 
+// Hey dude, it works!?
 router.get('/', (req, res) => {
 
     const getAllUsers = 'SELECT * FROM users';
@@ -82,7 +90,8 @@ router.get('/', (req, res) => {
     // res.end();
 })
 
-router.get('/api/user', (req, res, next) => {
+// get one User /api/users 201 - Gets a User, returns a user
+router.get('/api/user', authorizeUser, (req, res, next) => {
     // const { user } = res.locals;
     // if (user) {
     //     console.log("/api/users GET -- Success");
@@ -137,7 +146,7 @@ router.get('/api/user', (req, res, next) => {
 })
 
 // POST /api/users 201 - Creates a user, sets the Location header to "/", and returns no content
-router.post('/api/user', (req, res, next) => {
+router.post('/api/user', authorizeUser, (req, res, next) => {
 
     // Get the user from the request body.
     const user = req.body;
@@ -165,6 +174,8 @@ router.post('/api/user', (req, res, next) => {
 
 });
 
+// GET /api/users 201 - Gets all users
+// pull coach id from param and query for all associated with Coach ID, returns all users assocaited
 router.get('/api/users', async (req, res, next) => {
     User.findAll({
         raw: true,
