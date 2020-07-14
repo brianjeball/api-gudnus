@@ -2,35 +2,45 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('UserRole', {
-      userId: {
+    await queryInterface.createTable('UserRoles', {
+      id: {
         allowNull: false,
         autoIncrement: true,
-        type: Sequelize.INTEGER,
         primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
-            // This is a reference to another model
-            model: 'User',
-      
-            // This is the column name of the referenced model
-            key: 'id',
-          }
+          model: 'Users',
+          key: 'id'
+        }
       },
       roleId: {
         type: Sequelize.INTEGER,
-        unique: true,
+        allowNull: false,
         references: {
           // This is a reference to another model
-          model: 'Role',
-    
+          model: 'Roles',
           // This is the column name of the referenced model
           key: 'id',
         }
+      },
+      createdAt: {
+        allowNull: false,
+        // default: Sequelize.NOW,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        // default: Sequelize.NOW,
+        type: Sequelize.DATE
       }
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('UserRole');
+    await queryInterface.dropTable('UserRoles');
   }
 };
