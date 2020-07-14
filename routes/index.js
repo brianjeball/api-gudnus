@@ -71,24 +71,16 @@ const authorizeUser = (req, res, next) => {
     res.end();
 }
 
-
-// Hey dude, it works!?
+// setup a friendly greeting for the root route
 router.get('/', (req, res) => {
-
-    const getAllUsers = 'SELECT * FROM users';
-
-    // mysqlDB.query(getAllUsers, (err, rows, field) => {
-    //     if (err) {
-    //         console.error('Oops, some issue bro')
-    //     }
-    //     console.log("Connection Made");
-    //     res.json(rows);
-    // })
-
-    res.send('Hello Dude!');
-    // res.sendFile('/Users/brianjball/Desktop/gudnus/index.html');
-    // res.end();
-})
+    if (req.session.page_views) {
+      req.session.page_views++;
+      res.send("You visited this page " + req.session.page_views + " times");
+    } else {
+      req.session.page_views = 1;
+      res.send("Welcome to this page for the first time!");
+    }
+  });
 
 // get one User /api/users 201 - Gets a User, returns a user
 router.get('/api/user', authorizeUser, (req, res, next) => {
