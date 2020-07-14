@@ -2,6 +2,8 @@
  * third party libraries
  */
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const express = require('express');
 const helmet = require('helmet');
 const http = require('http');
@@ -42,6 +44,14 @@ app.use(helmet({
   ieNoOpen: false,
 }));
 
+app.use(cookieParser());
+app.use(session({
+  secret: "Shh, its a secret!",
+  proxy: true,
+  resave: true,
+  saveUninitialized: true
+}));
+
 // parsing the request bodys
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -50,13 +60,6 @@ app.use(bodyParser.json());
 // include routes
 var routes = require('./routes/index');
 app.use('/', routes);
-
-// setup a friendly greeting for the root route
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Welcome to the REST API project!',
-  });
-});
 
 /// ***** End of Routes ***** /// 
 
