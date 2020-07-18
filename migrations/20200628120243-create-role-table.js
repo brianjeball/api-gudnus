@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       updatedAt: {
-        allowNull: false,
+        // allowNull: false,
         default: Sequelize.NOW,
         type: Sequelize.DATE
       }
