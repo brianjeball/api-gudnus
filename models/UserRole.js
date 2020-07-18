@@ -11,30 +11,40 @@ const tableName = 'UserRole';
 
 // the actual model
 const UserRole = sequelize.define('UserRole', {
-  userId: {
+  id: {
     allowNull: false,
     autoIncrement: true,
-    type: Sequelize.INTEGER,
     primaryKey: true,
-    // references: {
-    //     // This is a reference to another model
-    //     model: 'User',
-  
-    //     // This is the column name of the referenced model
-    //     key: 'id',
-    //   }
+    type: Sequelize.INTEGER
+  },
+  userId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Users',
+      key: 'id'
+    }
   },
   roleId: {
     type: Sequelize.INTEGER,
-    unique: true,
-    // references: {
-    //   // This is a reference to another model
-    //   model: 'Role',
-
-    //   // This is the column name of the referenced model
-    //   key: 'id',
-    // }
+    allowNull: false,
+    references: {
+      // This is a reference to another model
+      model: 'Roles',
+      // This is the column name of the referenced model
+      key: 'id',
+    }
   },
+  createdAt: {
+    // allowNull: false,
+    // default: Sequelize.NOW,
+    type: Sequelize.DATE
+  },
+  updatedAt: {
+    // allowNull: false,
+    // default: Sequelize.NOW,
+    type: Sequelize.DATE
+  }
 }, { hooks, tableName });
 
 UserRole.belongsTo(User);
