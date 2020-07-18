@@ -6,11 +6,12 @@ let auth = require('basic-auth');
 
 // Construct a router instance.
 const router = express.Router();
-const bcrypt = require('bcryptjs');
+const bcryptjs = require('bcryptjs');
 const Sequelize = require('sequelize');
 
 // Models
 const User = require('../models/User');
+const { contentSecurityPolicy } = require('helmet');
 
 // Authenticate the User - Middleware
 
@@ -25,79 +26,6 @@ const authenticateUser = (req, res, next) => {
 
     if (!credentials) {
         console.log(credentials)
-        console.log(req)
-        var err = new Error("Email and Password are required.")
-        err.status = 401;
-        return next(err);
-    }
-
-    if (credentials.name && credentials.pass) {
-        // Tell Mongoose to set up a query to find the document with the user's email address
-        User.findOne({ emailAddress: credentials.name })
-            // `exec` method to perform the search and provide a callback to provide resutls
-            .then(function (user, error) {
-                if (!user) { // user not found in db
-                    var err = new Error('User not found.');
-                    err.status = 401;
-                    return next(err);
-                }
-                // bcrypt.compare method to compare the supplied password with the hashed version
-                // bcrypt.compare(credentials.pass, user.password, function (error, result) {
-                //     if (result === true) {
-                res.locals.user = user;
-                //         console.log({
-                //             name: user.firstName + user.lastName,
-                //             emailAddress: user.emailAddress,
-                //             id: user._id,
-                //             password: user.password
-                //         });
-                return next();
-                //     } else {
-                //         var err = new Error('Wrong email or password.');
-                //         //  If the password comparison fails, then return a 401 status code to the user.
-                //         err.status = 401;
-                //         return next(err);
-                //     }
-                // })
-            });
-    }
-}
-
-const authorizeUser = (req, res, next) => {
-    if (req.body.user.authorized) {
-        res.cookie('rememberme', '1', { maxAge: 900000, httpOnly: true })
-    }
-
-    res.end();
-}
-
-// setup a friendly greeting for the root route
-router.get('/', (req, res) => {
-    if (req.session.page_views) {
-      req.session.page_views++;
-      res.send("You visited this page " + req.session.page_views + " times");
-    } else {
-      req.session.page_views = 1;
-      res.send("Welcome to this page for the first time!");
-    }
-  });
-
-// get one User /api/users 201 - Gets a User, returns a user
-router.get('/api/user', authorizeUser, (req, res, next) => {
-    // const { user } = res.locals;
-    // if (user) {
-    //     console.log("/api/users GET -- Success");
-    //     res.status(200);
-    //     return res.json(user);
-    // } else {
-    // }
-    // console.log(req)
-
-    // Parse the user's credentials from the Authorization header.
-    const credentials = auth(req);
-
-    if (!credentials) {
-        console.log(credentials)
         // console.log(req)
         var err = new Error("Email and Password are required.")
         err.status = 401;
@@ -105,21 +33,23 @@ router.get('/api/user', authorizeUser, (req, res, next) => {
     }
 
     if (credentials.name && credentials.pass) {
-        User.findOne({ emailAddress: credentials.name })
+        console.log('credentials good');
+        User.findOne({ where: { username: credentials.name } })
             .then(function (user, error) {
                 if (!user) { // user not found in db
                     var err = new Error('Account not found. Please try again with the correct email and password.');
                     err.status = 401;
                     return next(err);
                 } else {
+                    console.log('comparing password hash');
                     // bcrypt.compare method to compare the supplied password with the hashed version
-                    bcrypt.compare(credentials.pass, user.password, function (error, result) {
+                    bcryptjs.compare(credentials.pass, user.password).then((result) => {
                         if (result === true) {
                             res.locals.user = user;
                             console.log({
-                                name: user.firstName + user.lastName,
-                                emailAddress: user.emailAddress,
-                                id: user._id,
+                                // name: user.firstName + user.lastName,
+                                username: user.username,
+                                id: user.id,
                                 password: user.password
                             });
                             return next();
@@ -133,7 +63,35 @@ router.get('/api/user', authorizeUser, (req, res, next) => {
                 }
             });
     }
+}
 
+const authorizeUser = (req, res, next) => {
+    if (req.body.user.authorized) {
+        res.cookie('rememberme', '1', { maxAge: 900000, httpOnly: true })
+    }
+
+    return next();
+}
+
+// setup a friendly greeting for the root route
+router.get('/', (req, res) => {
+    if (req.session.page_views) {
+        req.session.page_views++;
+        res.send("You visited this page " + req.session.page_views + " times");
+    } else {
+        req.session.page_views = 1;
+        res.send("Welcome to this page for the first time!");
+    }
+});
+
+// get one User /api/users 201 - Gets a User, returns a user
+router.get('/api/user', authenticateUser, authorizeUser, (req, res, next) => {
+    const { user } = res.locals;
+    if (user) {
+        console.log("/api/users GET -- Success");
+        res.status(200);
+        return res.json(user);
+    }
 
 })
 
@@ -147,9 +105,9 @@ router.post('/api/user', authorizeUser, (req, res, next) => {
     // User.password = req.body.password
 
     // Hash the new user's password.
-    if (user.password) {
-        user.password = bcrypt.hashSync(user.password);
-    }
+    // if (user.password) {
+    //     user.password = bcryptjs.hashSync(user.password);
+    // }
 
     // Create User `create` method
     User.create(user).catch(Sequelize.ValidationError, function (err) {
@@ -171,7 +129,7 @@ router.post('/api/user', authorizeUser, (req, res, next) => {
 router.get('/api/users', async (req, res, next) => {
     User.findAll({
         raw: true,
-       }).then(users => res.json(users));
+    }).then(users => res.json(users));
     // const users = await User.findAll().then((data) => {
     //     if (data) {
     //         // console.log(data)
