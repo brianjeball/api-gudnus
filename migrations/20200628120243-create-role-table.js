@@ -2,12 +2,12 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Role', {
+    await queryInterface.createTable('Roles', {
       id: {
         allowNull: false,
         autoIncrement: true,
-        type: Sequelize.INTEGER,
         primaryKey: true,
+        type: Sequelize.INTEGER
       },
       name: {
           type: Sequelize.STRING,
@@ -16,10 +16,20 @@ module.exports = {
       description: {
           type: Sequelize.STRING,
       },
+      createdAt: {
+        allowNull: false,
+        default: Sequelize.NOW,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        // allowNull: false,
+        default: Sequelize.NOW,
+        type: Sequelize.DATE
+      }
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Role');
+    await queryInterface.dropTable('Roles');
   }
 };
