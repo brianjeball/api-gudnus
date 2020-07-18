@@ -2,7 +2,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 // for encrypting our passwords
-// const bcryptSevice = require('../api/services/bcrypt.service');
+const bcryptSevice = require('../api/services/bcrypt.service');
 
 // the DB connection
 const sequelize = require('../config/database');
@@ -15,7 +15,7 @@ const hooks = {
 };
 
 // naming the table in DB
-const tableName = 'User';
+const tableName = 'Users';
 
 // the actual model
 const User = sequelize.define('User', {
@@ -43,9 +43,9 @@ const User = sequelize.define('User', {
   }
 }, { hooks, tableName });
 
-User.associate = function(models) {
-  User.belongsTo(models.User, {as: 'employees'})
-}
+// User.associate = function(models) {
+//   User.belongsTo(models.User, {as: 'employees'})
+// }
 
 // instead of using instanceMethod
 // in sequelize > 4 we are writing the function
@@ -53,11 +53,11 @@ User.associate = function(models) {
 // as we do not want to share sensitive data, the password
 // field gets ommited before sending
 User.prototype.toJSON = function () {
-  // const values = Object.assign({}, this.get());
+  const values = Object.assign({}, this.get());
 
-  // delete values.password;
+  delete values.password;
 
-  // return values;
+  return values;
 };
 
 // IMPORTANT
