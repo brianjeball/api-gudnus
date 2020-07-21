@@ -33,6 +33,14 @@ const User = sequelize.define('User', {
     type: Sequelize.CHAR,
     allowNull: false,
   },
+  role: {
+    type: Sequelize.ENUM,
+    default: 'basic',
+    enum: ['basic', 'super', 'admin']
+  },
+  accessToken: {
+    type: Sequelize.STRING(),
+  },
   createdAt: {
     // allowNull: true,
     type: Sequelize.DATE,
