@@ -23,12 +23,6 @@ const Meeting = sequelize.define('Meeting', {
         type: Sequelize.STRING(100),
         unique: true,
     },
-    coach: {
-        type: Sequelize.INTEGER,
-    },
-    members: {
-        reference: User,
-    },
     description: {
         type: Sequelize.STRING,
     },
