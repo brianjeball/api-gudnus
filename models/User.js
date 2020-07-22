@@ -6,6 +6,7 @@ const bcryptSevice = require('../api/services/bcrypt.service');
 
 // the DB connection
 const sequelize = require('../config/database');
+const Profile = require('./Profile');
 
 // hooks are functions that can run before or after a specific event
 const hooks = {
@@ -15,7 +16,7 @@ const hooks = {
 };
 
 // naming the table in DB
-const tableName = 'Users';
+const tableName = 'user';
 
 // the actual model
 const User = sequelize.define('User', {
@@ -32,6 +33,9 @@ const User = sequelize.define('User', {
   password: {
     type: Sequelize.CHAR,
     allowNull: false,
+  },
+  profile: {
+    reference: Profile, // sequelie
   },
   role: {
     type: Sequelize.ENUM,

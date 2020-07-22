@@ -6,7 +6,7 @@ const sequelize = require('../../config/database');
 const hooks = {};
 
 // naming the table in DB
-const tableName = 'Session';
+const tableName = 'session';
 
 // the actual model
 const Session = sequelize.define('Session', {
@@ -34,15 +34,6 @@ const Session = sequelize.define('Session', {
     },
     sessionDetails: {
         // Foriegn Key to Session Details 
-    },
-    isCanceled: {
-        type: Sequelize.BOOLEAN
-    },
-    isRescheduled: {
-        type: Sequelize.BOOLEAN
-    },
-    dateRescheduled: {
-        type: Sequelize.DATE
     },
     createdAt: {
         type: Sequelize.DATE,

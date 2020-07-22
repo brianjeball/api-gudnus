@@ -35,6 +35,9 @@ const UserRole = sequelize.define('UserRole', {
       key: 'id',
     }
   },
+  dateAssigned: {
+    type: Sequelize.DATE,
+  },
   createdAt: {
     // allowNull: false,
     // default: Sequelize.NOW,

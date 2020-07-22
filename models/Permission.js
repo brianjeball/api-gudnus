@@ -11,7 +11,7 @@ const Permission = sequelize.define("Permission", {
         autoIncrement: true,
         primaryKey: true
     },
-    title: {
+    name: {
         type: Sequelize.STRING(100),
         allowNull: false,
     },

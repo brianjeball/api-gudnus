@@ -24,10 +24,16 @@ const UserMeeting = sequelize.define('UserMeeting', {
         unique: true,
     },
     organizer: {
-        reference: User, // coach User.type
+        references: {
+            model: 'User',
+            key: 'id',
+          }
     },
     attendee: {
-        reference: User,
+        references: {
+            model: 'User',
+            key: 'id',
+          }
     },
     description: {
         type: Sequelize.STRING,

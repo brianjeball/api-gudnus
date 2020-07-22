@@ -26,6 +26,15 @@ const Meeting = sequelize.define('Meeting', {
     description: {
         type: Sequelize.STRING,
     },
+    isCanceled: {
+        type: Sequelize.BOOLEAN
+    },
+    isRescheduled: {
+        type: Sequelize.BOOLEAN
+    },
+    dateRescheduled: {
+        type: Sequelize.DATE
+    },
 }, { hooks, tableName });
 
 // instead of using instanceMethod

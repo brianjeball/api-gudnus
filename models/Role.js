@@ -8,7 +8,7 @@ const sequelize = require('../../config/database');
 const hooks = {};
 
 // naming the table in DB
-const tableName = 'Role';
+const tableName = 'role';
 
 // the actual model
 const Role = sequelize.define('Role', {
