@@ -29,9 +29,6 @@ const Session = sequelize.define('Session', {
     meetingDate: {
         type: Sequelize.DATE
     },
-    group: {
-        // Foriegn Key to Group table
-    },
     sessionDetails: {
         // Foriegn Key to Session Details 
     },

@@ -34,14 +34,11 @@ const User = sequelize.define('User', {
     type: Sequelize.CHAR,
     allowNull: false,
   },
-  profile: {
-    reference: Profile, // sequelie
-  },
-  role: {
-    type: Sequelize.ENUM,
-    default: 'basic',
-    enum: ['basic', 'super', 'admin']
-  },
+  // role: {
+  //   type: Sequelize.ENUM,
+  //   default: 'basic',
+  //   enum: ['basic', 'super', 'admin']
+  // },
   accessToken: {
     type: Sequelize.STRING(),
   },
@@ -55,9 +52,9 @@ const User = sequelize.define('User', {
   }
 }, { hooks, tableName });
 
-// User.associate = function(models) {
-//   User.belongsTo(models.User, {as: 'employees'})
-// }
+User.associate = function(models) {
+  User.belongsTo(models.UserRole, {as: 'userId'})
+}
 
 // instead of using instanceMethod
 // in sequelize > 4 we are writing the function

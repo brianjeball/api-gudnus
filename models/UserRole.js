@@ -21,7 +21,7 @@ const UserRole = sequelize.define('UserRole', {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
-      model: 'Users',
+      model: 'User',
       key: 'id'
     }
   },
@@ -30,7 +30,7 @@ const UserRole = sequelize.define('UserRole', {
     allowNull: false,
     references: {
       // This is a reference to another model
-      model: 'Roles',
+      model: 'Role',
       // This is the column name of the referenced model
       key: 'id',
     }
@@ -50,7 +50,9 @@ const UserRole = sequelize.define('UserRole', {
   }
 }, { hooks, tableName });
 
-UserRole.belongsTo(User);
+UserRole.associate = function(models) {
+  UserRole.hasMany(models.User)
+}
 
 // instead of using instanceMethod
 // in sequelize > 4 we are writing the function

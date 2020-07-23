@@ -17,7 +17,7 @@ const SessionFormDetails = sequelize.define('SessionFormDetails', {
         primaryKey: true
     },
     intervention: {
-        type: Sequelize.TEXT,
+        type: Sequelize.TEXT, // save as markdown
     },
     response: {
         type: Sequelize.TEXT,
