@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('UserRoles', {
+    await queryInterface.createTable('UserRole', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Users',
+          model: 'User',
           key: 'id'
         }
       },
@@ -22,7 +22,7 @@ module.exports = {
         allowNull: false,
         references: {
           // This is a reference to another model
-          model: 'Roles',
+          model: 'Role',
           // This is the column name of the referenced model
           key: 'id',
         }
@@ -41,6 +41,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('UserRoles');
+    await queryInterface.dropTable('UserRole');
   }
 };
