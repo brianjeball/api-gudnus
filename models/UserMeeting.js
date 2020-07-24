@@ -40,6 +40,12 @@ const UserMeeting = sequelize.define('UserMeeting', {
     },
 }, { hooks, tableName });
 
+UserMeeting.associate = function(models) {
+    // create Member and Coach
+    UserMeeting.hasMany(models.Member, {as: 'memberID'})
+    UserMeeting.hasMany(models.Coach, {as: 'coachID'})
+  }
+
 // instead of using instanceMethod
 // in sequelize > 4 we are writing the function
 // to the prototype object of our model.

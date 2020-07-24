@@ -2,7 +2,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 // for encrypting our passwords
-const bcryptSevice = require('../api/services/bcrypt.service');
+const bcryptSevice = require('../services/bcrypt.service');
 
 // the DB connection
 const sequelize = require('../config/database');
@@ -54,6 +54,7 @@ const User = sequelize.define('User', {
 
 User.associate = function(models) {
   User.belongsTo(models.UserRole, {as: 'userId'})
+  User.belongsTo(models.Track, {as: 'userId'})
 }
 
 // instead of using instanceMethod
