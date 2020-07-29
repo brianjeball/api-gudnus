@@ -1,6 +1,15 @@
 // server/roles.js
 const AccessControl = require("accesscontrol");
 const ac = new AccessControl();
+
+const types = [
+    "pofile",
+    "session_notes",
+    "goal",
+    "session",
+    "meeting",
+    "session_form"
+];
  
 exports.roles = (function() {
 ac.grant("basic") // user type
