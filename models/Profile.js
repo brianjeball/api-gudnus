@@ -2,6 +2,9 @@ const Sequelize = require("sequelize");
 
 const sequelize = require('../config/database');
 
+// hooks are functions that can run before or after a specific event
+const hooks = {};
+
 const tableName = 'profile';
 
 const Profile = sequelize.define("Profile", {
@@ -14,6 +17,12 @@ const Profile = sequelize.define("Profile", {
   userId: {
     type: Sequelize.INTEGER,
     allowNull: false,
+    references: {
+      // This is a reference to another model
+      model: 'User',
+      // This is the column name of the referenced model
+      key: 'id',
+    }
   },
   firstName: {
     type: Sequelize.STRING(255),
@@ -22,10 +31,9 @@ const Profile = sequelize.define("Profile", {
   lastName: {
     type: Sequelize.STRING(255),
   },
-  dateOfBirth: {
-    type: Sequelize.DATE(),
+  dayOfBirth: {
+    type: Sequelize.INTEGER(),
   },
-  // ENUM Available values
   gender: {
     type: Sequelize.STRING(50),
   },
@@ -48,6 +56,13 @@ const Profile = sequelize.define("Profile", {
   updatedAt: {
     type: Sequelize.DATE,
   },
-}, { tableName });
+}, { hooks, tableName });
 
-module.exports = { Profile };
+Profile.associate = function (models) {
+  Profile.hasMany(models.User, { foreignKey: "user", as: 'userId' })
+}
+
+Meeting.prototype.toJSON = function () {
+};
+
+module.exports = Profile;

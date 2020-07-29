@@ -27,6 +27,10 @@ const Role = sequelize.define('Role', {
     },
 }, { hooks, tableName });
 
+Role.associate = function (models) {
+    Role.belongsTo(models.UserRole, {foreignKey: "id", as: 'roleId'})
+}
+
 // instead of using instanceMethod
 // in sequelize > 4 we are writing the function
 // to the prototype object of our model.

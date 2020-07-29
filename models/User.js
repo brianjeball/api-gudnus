@@ -6,7 +6,6 @@ const bcryptSevice = require('../services/bcrypt.service');
 
 // the DB connection
 const sequelize = require('../config/database');
-const Profile = require('./Profile');
 
 // hooks are functions that can run before or after a specific event
 const hooks = {
@@ -52,9 +51,10 @@ const User = sequelize.define('User', {
   }
 }, { hooks, tableName });
 
-User.associate = function(models) {
-  User.belongsTo(models.UserRole, {as: 'userId'})
-  User.belongsTo(models.Track, {as: 'userId'})
+User.associate = function (models) {
+  User.belongsTo(models.UserRole, { foreignKey: 'id' })
+  User.belongsTo(models.Track, { foreignKey: 'id' })
+  User.belongsTo(models.Profile, { foreignKey: "id" })
 }
 
 // instead of using instanceMethod

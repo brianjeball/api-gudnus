@@ -55,10 +55,10 @@ const Track = sequelize.define('Track', {
   },
 }, { hooks, tableName });
 
-Track.associate = function(models) {
-    // create Member and Coach
-    Track.hasMany(models.User, {as: 'userId'})
-  }
+Track.associate = function (models) {
+  // create Member and Coach
+  Track.hasMany(models.User, { as: 'userId' })
+}
 
 // instead of using instanceMethod
 // in sequelize > 4 we are writing the function

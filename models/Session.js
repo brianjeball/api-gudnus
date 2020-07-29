@@ -30,7 +30,15 @@ const Session = sequelize.define('Session', {
         type: Sequelize.DATE
     },
     sessionDetails: {
-        // Foriegn Key to Session Details 
+        // Foriegn Key to Session Details
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            // This is a reference to another model
+            model: 'Session',
+            // This is the column name of the referenced model
+            key: 'id',
+        }
     },
     createdAt: {
         type: Sequelize.DATE,
@@ -39,6 +47,11 @@ const Session = sequelize.define('Session', {
         type: Sequelize.DATE,
     },
 }, { hooks, tableName });
+
+Session.associate = function (models) {
+    Session.belongsTo(models.Meeting, {foreignKey: "id"})
+    Session.hasMany(models.SessionDetails , {foreignKey: "id", as: "sessionDeails"})
+}
 
 // instead of using instanceMethod
 // in sequelize > 4 we are writing the function

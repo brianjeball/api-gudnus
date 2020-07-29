@@ -42,8 +42,9 @@ const UserMeeting = sequelize.define('UserMeeting', {
 
 UserMeeting.associate = function(models) {
     // create Member and Coach
-    UserMeeting.hasMany(models.Member, {as: 'memberID'})
-    UserMeeting.hasMany(models.Coach, {as: 'coachID'})
+    // UserMeeting.hasMany(models.Member, {as: 'memberID'})
+    // UserMeeting.hasMany(models.Coach, {as: 'coachID'})
+    // UserMeeting.hasMany(models.User, {as: 'organizer', forgien});
   }
 
 // instead of using instanceMethod

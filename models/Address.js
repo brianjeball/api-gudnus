@@ -36,6 +36,10 @@ const Address = sequelize.define("Address", {
     updatedAt: {
       type: Sequelize.DATE,
     },
-}, { tableName });
+}, { hooks, tableName });
+
+Address.associate = function(models) {
+    Address.belongsTo(models.Location, {foreignKey: "id", as: "address"})
+}
 
 module.exports = { Address };

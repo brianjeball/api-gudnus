@@ -3,7 +3,6 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 // the DB connection
 const sequelize = require('../../config/database');
-const User = require('./User');
 
 // hooks are functions that can run before or after a specific event
 const hooks = {};
@@ -35,7 +34,21 @@ const Meeting = sequelize.define('Meeting', {
     dateRescheduled: {
         type: Sequelize.DATE
     },
+    sesssionId: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+            // This is a reference to another model
+            model: 'Session',
+            // This is the column name of the referenced model
+            key: 'id',
+        }
+    }
 }, { hooks, tableName });
+
+Meeting.associate = function (models) {
+    Meeting.hasMany(models.Session, { foreignKey: "session", as: 'sessionId' })
+}
 
 // instead of using instanceMethod
 // in sequelize > 4 we are writing the function
