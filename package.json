@@ -47,8 +47,8 @@
     "helmet": "^3.22.0",
     "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.0",
     "morgan": "^1.10.0",
-    "mysql2": "^2.1.0",
     "sequelize": "^5.22.0"
   },
   "devDependencies": {
