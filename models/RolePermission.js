@@ -1,6 +1,8 @@
 const Sequelize = require("sequelize");
 
-const sequelize = require('../../config/database');
+const sequelize = require('../config/database');
+const Role = require("./Role");
+const Permission = require("./Permission");
 
 const tableName = 'role_permission';
 
@@ -11,15 +13,27 @@ const RolePermission = sequelize.define("RolePermission", {
         autoIncrement: true,
         primaryKey: true
     },
-    title: {
-        type: Sequelize.STRING(100),
-        allowNull: false,
+    roleId: {
+        references: {
+            // This is a reference to another model
+            model: 'Role',
+            // This is the column name of the referenced model
+            key: 'id',
+          }
     },
-    description: {
-        type: Sequelize.STRING(300),
+    permissionId: {
+        references: {
+            // This is a reference to another model
+            model: 'Permission',
+            // This is the column name of the referenced model
+            key: 'id',
+          }
+    },
+    dateAssigned: {
+      type: Sequelize.DATE,
     },
     createdAt: {
-      type: Sequelize.DATE,
+        type: Sequelize.DATE,
     },
     updatedAt: {
       type: Sequelize.DATE,

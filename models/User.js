@@ -2,7 +2,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 // for encrypting our passwords
-const bcryptSevice = require('../api/services/bcrypt.service');
+const bcryptSevice = require('../services/bcrypt.service');
 
 // the DB connection
 const sequelize = require('../config/database');
@@ -15,7 +15,7 @@ const hooks = {
 };
 
 // naming the table in DB
-const tableName = 'Users';
+const tableName = 'user';
 
 // the actual model
 const User = sequelize.define('User', {
@@ -33,6 +33,14 @@ const User = sequelize.define('User', {
     type: Sequelize.CHAR,
     allowNull: false,
   },
+  // role: {
+  //   type: Sequelize.ENUM,
+  //   default: 'basic',
+  //   enum: ['basic', 'super', 'admin']
+  // },
+  accessToken: {
+    type: Sequelize.STRING(),
+  },
   createdAt: {
     // allowNull: true,
     type: Sequelize.DATE,
@@ -43,9 +51,11 @@ const User = sequelize.define('User', {
   }
 }, { hooks, tableName });
 
-// User.associate = function(models) {
-//   User.belongsTo(models.User, {as: 'employees'})
-// }
+User.associate = function (models) {
+  User.belongsTo(models.UserRole, { foreignKey: 'id' })
+  User.belongsTo(models.Track, { foreignKey: 'id' })
+  User.belongsTo(models.Profile, { foreignKey: "id" })
+}
 
 // instead of using instanceMethod
 // in sequelize > 4 we are writing the function

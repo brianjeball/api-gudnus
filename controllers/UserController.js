@@ -1,9 +1,9 @@
-const User = require('.../models/User.js');
+const User = require('../models/User.js');
 const authService = require('../services/auth.service');
 const bcryptService = require('../services/bcrypt.service');
 
 const UserController = () => {
-  const register = async (req, res) => {
+  const signUp = async (req, res) => {
     const { body } = req;
 
     if (body.password === body.password2) {
@@ -13,6 +13,7 @@ const UserController = () => {
           password: body.password,
         });
         const token = authService().issue({ id: user.id });
+        user.accessToken = token;
 
         return res.status(200).json({ token, user });
       } catch (err) {
@@ -92,7 +93,7 @@ const UserController = () => {
   };
 
   return {
-    register,
+    signUp,
     login,
     validate,
     getAll,

@@ -11,7 +11,9 @@ const Sequelize = require('sequelize');
 
 // Models
 const User = require('../models/User');
-const { contentSecurityPolicy } = require('helmet');
+
+// Controllers
+const UserController = require('../controllers/UserController')
 
 // Authenticate the User - Middleware
 
@@ -65,13 +67,13 @@ const authenticateUser = (req, res, next) => {
     }
 }
 
-const authorizeUser = (req, res, next) => {
-    if (req.body.user.authorized) {
-        res.cookie('rememberme', '1', { maxAge: 900000, httpOnly: true })
-    }
+// const authorizeUser = (req, res, next) => {
+//     if (req.body.user.authorized) {
+//         res.cookie('rememberme', '1', { maxAge: 900000, httpOnly: true })
+//     }
 
-    return next();
-}
+//     return next();
+// }
 
 // setup a friendly greeting for the root route
 router.get('/', (req, res) => {

@@ -3,42 +3,58 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 // the DB connection
 const sequelize = require('../../config/database');
+const User = require('./User');
 
 // hooks are functions that can run before or after a specific event
 const hooks = {};
 
 // naming the table in DB
-const tableName = 'role';
+const tableName = 'User_Meeting';
 
 // the actual model
-const Role = sequelize.define('Role', {
+const UserMeeting = sequelize.define('UserMeeting', {
     id: {
         allowNull: false,
         autoIncrement: true,
         type: Sequelize.INTEGER,
         primaryKey: true,
     },
-    name: {
+    date: {
         type: Sequelize.STRING(100),
         unique: true,
+    },
+    organizer: {
+        references: {
+            model: 'User',
+            key: 'id',
+          }
+    },
+    attendee: {
+        references: {
+            model: 'User',
+            key: 'id',
+          }
     },
     description: {
         type: Sequelize.STRING,
     },
 }, { hooks, tableName });
 
-Role.associate = function (models) {
-    Role.belongsTo(models.UserRole, {foreignKey: "id", as: 'roleId'})
-}
+UserMeeting.associate = function(models) {
+    // create Member and Coach
+    // UserMeeting.hasMany(models.Member, {as: 'memberID'})
+    // UserMeeting.hasMany(models.Coach, {as: 'coachID'})
+    // UserMeeting.hasMany(models.User, {as: 'organizer', forgien});
+  }
 
 // instead of using instanceMethod
 // in sequelize > 4 we are writing the function
 // to the prototype object of our model.
 // as we do not want to share sensitive data, the password
 // field gets ommited before sending
-Role.prototype.toJSON = function () {
+UserMeeting.prototype.toJSON = function () {
 };
 
 // IMPORTANT
 // don't forget to export the Model
-module.exports = Role;
+module.exports = UserMeeting;
