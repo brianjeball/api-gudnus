@@ -11,25 +11,14 @@ const cors = require('cors');
 
 const morgan = require('morgan');
 
-/**
- * server configuration
- */
-const config = require('./config');
-const dbService = require('./api/services/db.service');
-const auth = require('./api/policies/auth.policy');
-
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
 
-// environment: development, staging, testing, production
-const environment = process.env.NODE_ENV;
 
 /**
  * express application
  */
 const app = express();
-const server = http.Server(app);
-const DB = dbService(environment, config.migrate).start();
 
 app.use(morgan('combined'));
 
@@ -56,10 +45,30 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// require Mongoose
+var mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost:28017/gudnus", {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false
+    });
+
+var db = mongoose.connection;
+
+db.on("error", function(err){
+  console.log("connection error:", err);
+});
+
+db.once("open", function(){
+  console.log(db.modelNames())
+  console.log("db connection successful");
+});
+
 // TODO setup your api routes here
 // include routes
-var routes = require('./routes/index');
-app.use('/', routes);
+var routes = require('./routes/new-routes');
+app.use("/", routes);
 
 /// ***** End of Routes ***** /// 
 
@@ -85,15 +94,10 @@ app.use((err, req, res, next) => {
     }))
 });
 
-server.listen(3003, () => {
-  if (environment !== 'production' &&
-    environment !== 'development' &&
-    environment !== 'testing'
-  ) {
-    console.error(`NODE_ENV is set to ${environment}, but only production and development are valid.`);
-    process.exit(1);
-  }
-  console.log("Server listening at 3003");
-  return DB;
-})
+// set our port
+app.set('port', process.env.PORT || 5000);
 
+// start listening on our port
+const server = app.listen(app.get('port'), () => {
+  console.log(`Express server is listening on port ${server.address().port}`);
+});
