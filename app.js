@@ -24,7 +24,8 @@ app.use(morgan('combined'));
 // configure to only allow requests from certain origins
 const whitleListDomain = [
   'http://www.gudn.us',
-  'https://www.gudn.us'
+  'https://www.gudn.us',
+  'http://localhost:3000'
 ];
 
 // configure cors with dynamic origin
