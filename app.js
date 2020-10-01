@@ -85,6 +85,13 @@ db.once("open", function () {
 var routes = require('./routes/routes');
 app.use("/", routes);
 
+// setup a friendly greeting for the root route
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Gudnus API',
+  });
+});
+
 /// ***** End of Routes ***** /// 
 
 // send 404 if no other route matched
