@@ -23,10 +23,11 @@ app.use(morgan('combined'));
 // allow cross origin requests
 // configure to only allow requests from certain origins
 const whitleListDomain = [
-  'http://www.gudn.us/',
-  'https://www.gudn.us/'
+  'http://www.gudn.us',
+  'https://www.gudn.us'
 ];
 
+// configure cors with dynamic origin
 app.use(cors({
   origin: function (origin, callback) {
     // allow requests with no origin 
@@ -40,6 +41,9 @@ app.use(cors({
     return callback(null, true);
   }
 }));
+
+// enable pre-flight across-the-board
+app.options('*', cors());
 
 // secure express app
 app.use(helmet({
