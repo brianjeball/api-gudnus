@@ -88,7 +88,7 @@ const corsHeaders = (req, res, next) => {
     // fix CORS error
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Host', 'www.gudn.us')
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE')
     next();
 }
 
@@ -356,13 +356,13 @@ router.put('/api/users/account', authUser, async (req, res, next) => {
 })
 
 // Login
-router.post('/api/users/login', authenticateUser, corsHeaders, async (req, res) => {
+router.post('/api/users/login', authenticateUser, async (req, res) => {
     const { user } = res.locals;
     const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY)
     user.tokens = user.tokens.concat({ token })
     await user.save()
     // send token
-    res.send({ user, token });
+    resres.header('Access-Control-Allow-Origin', '*').send({ user, token });
 })
 
 // GET Users profile
