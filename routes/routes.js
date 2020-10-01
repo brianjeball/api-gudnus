@@ -84,6 +84,13 @@ const authenticateUser = (req, res, next) => {
     }
 }
 
+const corsHeaders = (req, res, next) => {
+    // fix CORS error
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+}
+
 /**
  * Middleware to find all Sessions and store in response locals for subsequent requests.
  *
@@ -344,7 +351,7 @@ router.put('/api/users/account', authUser, async (req, res, next) => {
 })
 
 // Login
-router.post('/api/users/login', authenticateUser, async (req, res) => {
+router.post('/api/users/login', authenticateUser, corsHeaders, async (req, res) => {
     const { user } = res.locals;
     const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY)
     user.tokens = user.tokens.concat({ token })
