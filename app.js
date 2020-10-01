@@ -14,7 +14,6 @@ const morgan = require('morgan');
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
 
-
 /**
  * express application
  */
@@ -47,6 +46,7 @@ app.use(bodyParser.json());
 
 // require Mongoose
 var mongoose = require("mongoose");
+// CHANGE BEFORE BUILD
 mongoose.connect("mongodb://localhost:28017/gudnus", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -65,9 +65,8 @@ db.once("open", function(){
   console.log("db connection successful");
 });
 
-// TODO setup your api routes here
 // include routes
-var routes = require('./routes/new-routes');
+var routes = require('./routes/routes');
 app.use("/", routes);
 
 /// ***** End of Routes ***** /// 
@@ -84,8 +83,7 @@ app.use((err, req, res, next) => {
   if (enableGlobalErrorLogging) {
     console.error(`Global error handler: ${JSON.stringify(err.stack)}`);
   }
-  // console.log(err)
-  // console.log(err.message)
+
   return (
     res.status(500).json({
       message: err.message,
