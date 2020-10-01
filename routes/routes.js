@@ -358,7 +358,7 @@ router.post('/api/users/login', authenticateUser, async (req, res) => {
     user.tokens = user.tokens.concat({ token })
     await user.save()
     // send token
-    resres.header('Access-Control-Allow-Origin', '*').send({ user, token });
+    res.send({ user, token });
 })
 
 // GET Users profile
