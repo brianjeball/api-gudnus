@@ -24,8 +24,7 @@ app.use(morgan('combined'));
 // configure to only allow requests from certain origins
 const whitleListDomain = [
   'http://gudn.us',
-  'https://gudn.us',
-  'http://gudnusapinodejs.herokuapp.com'
+  'https://gudn.us'
 ];
 
 app.use(cors({
