@@ -180,6 +180,10 @@ async function removeUserFromAllSessions(allSessions, userId) {
     })
 }
 
+router.options('*', corsHeaders, async (req, res) => {
+    res.send(200);
+})
+
 // Create Sessions
 router.post('/api/sessions', getAllUsers, authUser, async (req, res, next) => {
     const { allExistingUsers } = res.locals;
