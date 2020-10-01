@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/brianjeball/api-gudnus#readme",
   "scripts": {
-    "start": "cross-env JWT_KEY=WinterIsComingGOT2019 && npm run nodemon",
+    "start": "env-cmd -f ./.env nodemon npm run",
     "dev": "cross-env NODE_ENV=development node app.js",
     "nodemon": "nodemon --exec npm run dev",
     "prepush": "npm test",
@@ -41,6 +41,7 @@
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "env-cmd": "^10.1.0",
     "es6-promise": "^4.2.8",
     "express": "^4.17.1",
     "express-session": "^1.17.1",

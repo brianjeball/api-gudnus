@@ -6,7 +6,6 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const express = require('express');
 const helmet = require('helmet');
-const http = require('http');
 const cors = require('cors');
 
 const morgan = require('morgan');
@@ -47,7 +46,7 @@ app.use(bodyParser.json());
 // require Mongoose
 var mongoose = require("mongoose");
 // CHANGE BEFORE BUILD
-mongoose.connect("mongodb://localhost:28017/gudnus", {
+mongoose.connect(process.env.MONGODB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,

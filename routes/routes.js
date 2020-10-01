@@ -17,7 +17,7 @@ const router = express.Router();
  */
 const authUser = async (req, res, next) => {
     const token = req.header('Authorization').replace('Bearer ', '')
-    const data = jwt.verify(token, 'WinterIsComingGOT2019')
+    const data = jwt.verify(token, process.env.JWT_KEY)
     try {
         const user = await User.findOne({ _id: data._id, 'tokens.token': token })
             .populate('account')
@@ -314,7 +314,7 @@ router.post('/api/users', getAllSessions, async (req, res, next) => {
         }
 
         // generate Token
-        const token = jwt.sign({ _id: user._id }, 'WinterIsComingGOT2019')
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY)
         user.tokens = user.tokens.concat({ token })
 
         await user.save(function (err) {
@@ -346,7 +346,7 @@ router.put('/api/users/account', authUser, async (req, res, next) => {
 // Login
 router.post('/api/users/login', authenticateUser, async (req, res) => {
     const { user } = res.locals;
-    const token = jwt.sign({ _id: user._id }, 'WinterIsComingGOT2019')
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY)
     user.tokens = user.tokens.concat({ token })
     await user.save()
     // send token
