@@ -23,8 +23,8 @@ app.use(morgan('combined'));
 // allow cross origin requests
 // configure to only allow requests from certain origins
 const whitleListDomain = [
-  'http://gudn.us',
-  'https://gudn.us'
+  'http://www.gudn.us/',
+  'https://www.gudn.us/'
 ];
 
 app.use(cors({
