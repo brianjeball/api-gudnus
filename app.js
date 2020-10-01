@@ -60,6 +60,12 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// fix CORS error
+app.use((req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+});
+
 // require Mongoose
 var mongoose = require("mongoose");
 // CHANGE BEFORE BUILD
