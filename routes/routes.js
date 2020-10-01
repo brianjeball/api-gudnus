@@ -88,6 +88,7 @@ const corsHeaders = (req, res, next) => {
     // fix CORS error
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Host', 'www.gudn.us')
     next();
 }
 
