@@ -22,7 +22,24 @@ app.use(morgan('combined'));
 
 // allow cross origin requests
 // configure to only allow requests from certain origins
-app.use(cors());
+const whitleListDomain = [
+  'http://gudn.us',
+  'https://gudn.us'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin 
+    // (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (whitleListDomain.indexOf(origin) === -1) {
+      var msg = 'The CORS policy for this site does not ' +
+        'allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+}));
 
 // secure express app
 app.use(helmet({
@@ -47,19 +64,19 @@ app.use(bodyParser.json());
 var mongoose = require("mongoose");
 // CHANGE BEFORE BUILD
 mongoose.connect(process.env.MONGODB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false
-    });
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false
+});
 
 var db = mongoose.connection;
 
-db.on("error", function(err){
+db.on("error", function (err) {
   console.log("connection error:", err);
 });
 
-db.once("open", function(){
+db.once("open", function () {
   console.log(db.modelNames())
   console.log("db connection successful");
 });
