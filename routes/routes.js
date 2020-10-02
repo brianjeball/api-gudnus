@@ -33,7 +33,6 @@ const authUser = async (req, res, next) => {
     } catch (error) {
         res.status(401).send({ error: 'Not authorized to access this resource' })
     }
-
 }
 
 /**
@@ -64,9 +63,7 @@ const authenticateUser = (req, res, next) => {
                 if (error) {
                     return next(error);
                 } else if (!user) { // user not found in db
-                    var err = new Error('User not found.');
-                    err.status = 401;
-                    return next(err);
+                    return res.status(401).send('User not Found');
                 }
                 // bcrypt.compare method to compare the supplied password with the hashed version
                 bcrypt.compare(credentials.pass, user.password, async (error, result) => {
@@ -74,22 +71,12 @@ const authenticateUser = (req, res, next) => {
                         res.locals.user = user;
                         return next();
                     } else {
-                        var err = new Error('Wrong email or password.');
                         //  If the password comparison fails, then return a 401 status code to the user.
-                        err.status = 401;
-                        return next(err);
+                        return res.status(401).send('Wrong email or password.');
                     }
                 })
             });
     }
-}
-
-const corsHeaders = (req, res, next) => {
-    // fix CORS error
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE')
-    next();
 }
 
 /**
