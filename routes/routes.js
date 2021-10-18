@@ -80,6 +80,22 @@ const authenticateUser = (req, res, next) => {
 }
 
 /**
+ * Middleware to find a specific session, for the Admin page
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+const getOneSession = (req, res, next) => {
+    try {
+
+    } catch (err) {
+        return next(error);
+    }
+}
+
+/**
  * Middleware to find all Sessions and store in response locals for subsequent requests.
  *
  * @param {*} req 
@@ -235,15 +251,12 @@ router.get('/api/session/:session_id', authUser, async ( req, res, next) => {
                 } else if (!session) {
                     return next(new Error(`Session with ID ${req.params.session_id} not found`))
                 }
-                res.locals.oneSession = session;
-                return next();
+                // return One Session
+                res.status(200).send(session);
             })
     } catch (error) {
         return next(error)
     }
-
-    // return One Session
-    res.status(200).send(res.locals.oneSession);
 })
 
 
