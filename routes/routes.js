@@ -223,6 +223,30 @@ router.get('/api/sessions', getAllSessions, authUser, async (req, res) => {
     res.status(200).send(allCurrentSessions)
 })
 
+// Get A Session
+router.get('/api/session/:session_id', authUser, async ( req, res, next) => {
+    try {
+        // Put One Session
+        Session.findById(req.params.session_id)
+            .populate('user')
+            .exec(function (error, session) {
+                if (error) {
+                    return next(error)
+                } else if (!session) {
+                    return next(new Error(`Session with ID ${req.params.session_id} not found`))
+                }
+                res.locals.oneSession = session;
+                return next();
+            })
+    } catch (error) {
+        return next(error)
+    }
+
+    // return One Session
+    res.status(200).send(res.locals.oneSession);
+})
+
+
 // Get Auth User
 router.get('/api/user', authUser, async (req, res) => {
     const { user } = req;
