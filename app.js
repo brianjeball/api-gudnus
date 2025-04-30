@@ -25,7 +25,8 @@ app.use(morgan('combined'));
 const whitleListDomain = [
   'http://www.gudn.us',
   'https://www.gudn.us',
-  'http://localhost:3000'
+  'http://localhost:3000',
+  'https://opulent-guacamole-5467rwpqgv4c7p94-3000.app.github.dev'
 ];
 
 // configure cors with dynamic origin
@@ -68,7 +69,7 @@ app.use(bodyParser.json());
 // require Mongoose
 var mongoose = require("mongoose");
 // CHANGE BEFORE BUILD
-mongoose.connect(process.env.MONGODB_URL, {
+mongoose.connect("mongodb+srv://bigwinent1:i6KvQmeVsDecomMP@cluster0.hkydqdq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
