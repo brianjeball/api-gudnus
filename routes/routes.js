@@ -275,6 +275,7 @@ router.get('/api/users', authUser, async (req, res, next) => {
 
         res.status(200).send({ users: users })
     } catch (err) {
+        console.error('Error getting members', err)
         next(err)
     }
 })
