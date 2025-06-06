@@ -307,11 +307,15 @@ router.post('/api/users', getAllSessions, async (req, res, next) => {
             },
             phoneNumber: '',
             gender: '',
-            userType: req.body.role ? req.body.role : 'Member'
+            userType: req.body.role ? req.body.role : 'Admin'
         })
 
         await profile.save(function (err) {
-            if (err) return next(err)
+            if (err) {
+                console.log(err)
+                return next(err)
+            }
+                
         })
 
         // add profile to user
