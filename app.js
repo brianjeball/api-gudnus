@@ -26,7 +26,8 @@ const whitleListDomain = [
   'http://www.gudn.us',
   'https://www.gudn.us',
   'http://localhost:3000',
-  'https://opulent-guacamole-5467rwpqgv4c7p94-3000.app.github.dev'
+  'https://opulent-guacamole-5467rwpqgv4c7p94-3000.app.github.dev',
+  'https://api-gudnus.onrender.com',
 ];
 
 // configure cors with dynamic origin
