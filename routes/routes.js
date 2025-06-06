@@ -267,7 +267,7 @@ router.get('/api/user', authUser, async (req, res) => {
 })
 
 // Get all Users
-router.get('/api/users', authUser, async (req, res, next) => {
+router.get('/api/users', async (req, res, next) => {
 
     try {
         const users = await User.find().populate('roles', 'account')
