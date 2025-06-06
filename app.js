@@ -116,7 +116,7 @@ app.use((err, req, res, next) => {
   }
 
   return (
-    res.status(500).json({
+    res.status(502).json({
       message: err.message,
       stack: err.stack,
       error: process.env.NODE_ENV === 'production' ? {} : err,
