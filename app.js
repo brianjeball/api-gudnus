@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const express = require('express');
 const helmet = require('helmet');
-const cors = require('cors');
+// const cors = require('cors');
 
 const morgan = require('morgan');
 
@@ -31,22 +31,22 @@ const whitleListDomain = [
 ];
 
 // configure cors with dynamic origin
-app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin 
-    // (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (whitleListDomain.indexOf(origin) === -1) {
-      var msg = 'The DAMN CORS policy for this site does not ' +
-        'allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  }
-}));
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     // allow requests with no origin 
+//     // (like mobile apps or curl requests)
+//     if (!origin) return callback(null, true);
+//     if (whitleListDomain.indexOf(origin) === -1) {
+//       var msg = 'The DAMN CORS policy for this site does not ' +
+//         'allow access from the specified Origin.';
+//       return callback(new Error(msg), false);
+//     }
+//     return callback(null, true);
+//   }
+// }));
 
 // enable pre-flight across-the-board
-app.options('*', cors());
+// app.options('*', cors());
 
 // secure express app
 app.use(helmet({
